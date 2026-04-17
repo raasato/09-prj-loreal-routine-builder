@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -44,7 +44,12 @@
 
       <!-- Selected Products -->
       <div class="selected-products">
-        <h2>Selected Products</h2>
+        <div class="selected-products-header">
+          <h2>Selected Products</h2>
+          <button id="clearAllBtn" class="clear-all-btn" style="display: none">
+            <i class="fa-solid fa-trash"></i> Clear All
+          </button>
+        </div>
         <div id="selectedProductsList"></div>
         <button id="generateRoutine" class="generate-btn">
           <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Routine
@@ -55,23 +60,75 @@
       <section class="chatbox">
         <h2>Let's Build Your Routine</h2>
         <div id="chatWindow" class="chat-window"></div>
-
-        <form id="chatForm" class="chat-form">
-          <label for="userInput" class="visually-hidden">Message</label>
+        <p class="follow-up-hint">
+          Ask a follow-up about your generated routine here, or open the web
+          search modal for current L'Oréal product and routine questions.
+        </p>
+        <form id="routineFollowUpForm" class="chat-form">
+          <label for="routineFollowUpInput" class="visually-hidden"
+            >Follow-up question</label
+          >
           <input
-            id="userInput"
-            name="userInput"
+            id="routineFollowUpInput"
+            name="routineFollowUpInput"
             type="text"
-            placeholder="Ask me about products or routines…"
+            placeholder="Ask a follow-up about your routine…"
             autocomplete="off"
             required
           />
-          <button type="submit" id="sendBtn">
+          <button type="submit" id="routineFollowUpSendBtn">
             <i class="fa-solid fa-paper-plane"></i>
-            <span class="visually-hidden">Send</span>
+            <span class="visually-hidden">Send follow-up</span>
           </button>
         </form>
+        <button
+          id="openWebSearchModal"
+          class="generate-btn web-search-launch-btn"
+          type="button"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i> Ask Beauty Advisor
+        </button>
       </section>
+
+      <!------- Web Search Modal ------->
+      <div id="webSearchModal" class="web-search-modal" aria-hidden="true">
+        <div
+          class="web-search-modal-content"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="webSearchModalTitle"
+        >
+          <div class="web-search-modal-header">
+            <h2 id="webSearchModalTitle">Beauty Advisor with Web Search</h2>
+            <button
+              type="button"
+              id="closeWebSearchModal"
+              class="close-modal-btn"
+              aria-label="Close modal"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div id="webSearchMessages" class="web-search-messages"></div>
+
+          <form id="webSearchForm" class="web-search-form">
+            <label for="webSearchInput" class="visually-hidden">Message</label>
+            <input
+              id="webSearchInput"
+              name="webSearchInput"
+              type="text"
+              placeholder="Ask about L'Oréal products, routines, or ingredients…"
+              autocomplete="off"
+              required
+            />
+            <button type="submit" id="webSearchSendBtn">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span class="visually-hidden">Send</span>
+            </button>
+          </form>
+        </div>
+      </div>
 
       <!------- Footer Links ------->
       <footer class="site-footer">
@@ -85,8 +142,6 @@
       </footer>
     </div>
 
-    <!-- secrets.js can be removed when using Cloudflare Workers for API requests -->
-    <script src="secrets.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
