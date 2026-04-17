@@ -1,5 +1,6 @@
 /* Get references to DOM elements */
 const categoryFilter = document.getElementById("categoryFilter");
+const productSearchInput = document.getElementById("productSearchInput");
 const productsContainer = document.getElementById("productsContainer");
 const selectedProductsList = document.getElementById("selectedProductsList");
 const generateRoutineButton = document.getElementById("generateRoutine");
@@ -417,6 +418,15 @@ initializeApp();
 function displayProducts(products) {
   currentProducts = products;
 
+  if (products.length === 0) {
+    productsContainer.innerHTML = `
+      <div class="placeholder-message">
+        No products found. Try a different search.
+      </div>
+    `;
+    return;
+  }
+
   productsContainer.innerHTML = products
     .map(
       (product) => `
@@ -437,6 +447,42 @@ function displayProducts(products) {
   `,
     )
     .join("");
+}
+
+/* Apply category and search filters together */
+function applyFilters() {
+  const selectedCategory = categoryFilter.value;
+  const searchTerm = (productSearchInput?.value || "").trim().toLowerCase();
+
+  const filteredProducts = allProducts.filter((product) => {
+    const categoryMatches =
+      !selectedCategory || product.category === selectedCategory;
+
+    const searchableText = [
+      product.name,
+      product.brand,
+      product.category,
+      product.description,
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    const searchMatches = !searchTerm || searchableText.includes(searchTerm);
+
+    return categoryMatches && searchMatches;
+  });
+
+  if (!selectedCategory && !searchTerm) {
+    productsContainer.innerHTML = `
+      <div class="placeholder-message">
+        Select a category or search for a product to view results.
+      </div>
+    `;
+    currentProducts = [];
+    return;
+  }
+
+  displayProducts(filteredProducts);
 }
 
 /* Show selected products under the grid */
@@ -569,16 +615,14 @@ categoryFilter.addEventListener("change", async (e) => {
     allProducts = await loadProducts();
   }
 
-  const selectedCategory = e.target.value;
-
-  /* filter() creates a new array containing only products 
-     where the category matches what the user selected */
-  const filteredProducts = allProducts.filter(
-    (product) => product.category === selectedCategory,
-  );
-
-  displayProducts(filteredProducts);
+  applyFilters();
 });
+
+if (productSearchInput) {
+  productSearchInput.addEventListener("input", () => {
+    applyFilters();
+  });
+}
 
 /* Click a card to select or unselect a product */
 productsContainer.addEventListener("click", (e) => {
