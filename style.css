@@ -1,6 +1,9 @@
 :root {
   --passtionate-red: #ff003b;
   --eternal-gold: #e3a535;
+  --brand-black: #111111;
+  --brand-cream: #fffaf3;
+  --brand-warm-gray: #f5f1eb;
 }
 
 /* —— basic reset —— */
@@ -16,11 +19,22 @@ body {
   color: #333;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 12% 10%,
+      rgba(227, 165, 53, 0.12),
+      transparent 22%
+    ),
+    radial-gradient(circle at 88% 92%, rgba(255, 0, 59, 0.1), transparent 24%),
+    linear-gradient(180deg, #fff, var(--brand-cream));
 }
 
 .page-wrapper {
   width: 90%;
   max-width: 900px;
+  position: relative;
+  isolation: isolate;
 }
 
 [dir="rtl"] body,
@@ -41,6 +55,23 @@ body {
   text-align: center;
   padding-top: 50px;
   padding-bottom: 10px;
+  position: relative;
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  top: -80px;
+  right: -120px;
+  border: 2px solid rgba(227, 165, 53, 0.35);
+  box-shadow:
+    0 0 0 18px rgba(255, 0, 59, 0.09),
+    0 0 0 36px rgba(227, 165, 53, 0.08);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .logo {
@@ -52,6 +83,8 @@ body {
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 10px;
+  color: var(--brand-black);
+  letter-spacing: 0.01em;
 }
 
 /* category filter */
@@ -64,24 +97,44 @@ body {
   width: 100%;
   padding: 16px;
   font-size: 18px;
-  border: 2px solid #000;
+  border: 2px solid var(--brand-black);
   border-radius: 8px;
   cursor: pointer;
-  background-color: white;
+  background-color: #fff;
   font-weight: 500;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .search-section select:focus {
   outline: none;
-  border-color: #666;
+  border-color: var(--passtionate-red);
+  box-shadow: 0 0 0 3px rgba(255, 0, 59, 0.14);
 }
 
 /* chat section */
 .chatbox {
   margin: 40px 0;
-  border: 2px solid #000;
+  border: 2px solid var(--brand-black);
   border-radius: 8px;
   padding: 26px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.chatbox::before {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 1px solid rgba(227, 165, 53, 0.45);
+  top: -78px;
+  left: -78px;
+  box-shadow: 0 0 0 14px rgba(227, 165, 53, 0.08);
+  pointer-events: none;
 }
 
 .chatbox h2 {
@@ -95,8 +148,10 @@ body {
   line-height: 1.5;
   height: 250px;
   overflow-y: auto;
-  background: #fafafa;
+  background: linear-gradient(180deg, #fff, var(--brand-warm-gray));
   margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
 }
 
 .routine-output {
@@ -141,12 +196,13 @@ body {
 }
 
 .user-message {
-  background: #efefef;
+  background: rgba(255, 0, 59, 0.09);
+  border: 1px solid rgba(255, 0, 59, 0.18);
 }
 
 .assistant-message {
-  background: #f8f8f8;
-  border: 1px solid #e3e3e3;
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.12);
 }
 
 /* placeholder message */
@@ -188,12 +244,12 @@ body {
 
 .chat-form input:focus {
   outline: none;
-  border-bottom-color: #000;
+  border-bottom-color: var(--passtionate-red);
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
+  background: var(--brand-black);
   color: #fff;
   border: none;
   padding: 12px;
@@ -207,7 +263,7 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: var(--passtionate-red);
 }
 
 .chat-form button:focus {
@@ -264,13 +320,14 @@ body {
 
 .product-card {
   flex: 0 1 calc(33.333% - 14px);
-  border: 1px solid #ccc;
+  border: 1px solid #d8d3cc;
   padding: 15px;
   border-radius: 4px;
   display: flex;
   gap: 15px;
   min-height: 160px;
   cursor: pointer;
+  background: #fff;
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -330,7 +387,8 @@ body {
 
 .product-card:hover {
   transform: translateY(-2px);
-  border-color: #999;
+  border-color: var(--eternal-gold);
+  box-shadow: 0 8px 20px rgba(17, 17, 17, 0.08);
 }
 
 .product-card:focus-visible {
@@ -369,12 +427,54 @@ body {
   color: #666;
 }
 
+.learn-more-btn {
+  margin-top: 10px;
+  align-self: flex-start;
+  border: 1px solid var(--brand-black);
+  background: #fff;
+  color: var(--brand-black);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.learn-more-btn:hover {
+  background: var(--brand-black);
+  color: #fff;
+}
+
+[dir="rtl"] .learn-more-btn {
+  align-self: flex-end;
+}
+
 /* selected products */
 .selected-products {
   margin: 40px 0;
   padding: 20px;
-  border: 2px solid #000;
+  border: 2px solid var(--brand-black);
   border-radius: 8px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.selected-products::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 0, 59, 0.28);
+  right: -78px;
+  bottom: -78px;
+  box-shadow: 0 0 0 12px rgba(255, 0, 59, 0.07);
+  pointer-events: none;
 }
 
 .selected-products-header {
@@ -393,7 +493,7 @@ body {
 .clear-all-btn {
   border: 1px solid #ff003b;
   background: #fff;
-  color: #ff003b;
+  color: var(--passtionate-red);
   border-radius: 6px;
   padding: 8px 12px;
   font-size: 14px;
@@ -403,7 +503,7 @@ body {
 }
 
 .clear-all-btn:hover {
-  background: #ff003b;
+  background: var(--passtionate-red);
   color: #fff;
 }
 
@@ -463,15 +563,18 @@ body {
   font-size: 18px;
   font-weight: 500;
   color: #fff;
-  background: #000;
+  background: linear-gradient(135deg, var(--brand-black), #2b2b2b);
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.2s ease;
 }
 
 .generate-btn:hover {
-  background: #666;
+  background: linear-gradient(135deg, var(--passtionate-red), #d80034);
+  transform: translateY(-1px);
 }
 
 .generate-btn:disabled {
@@ -485,12 +588,12 @@ body {
 
 .web-search-launch-btn {
   margin-top: 12px;
-  background: var(--eternal-gold);
+  background: linear-gradient(135deg, var(--eternal-gold), #cf9c24);
   color: #111;
 }
 
 .web-search-launch-btn:hover {
-  background: #cf9c24;
+  background: linear-gradient(135deg, #cf9c24, #b7881f);
 }
 
 /* web search modal */
@@ -505,6 +608,74 @@ body {
   z-index: 1000;
 }
 
+/* product details modal */
+.product-details-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+}
+
+.product-details-modal.is-open {
+  display: flex;
+}
+
+.product-details-modal-content {
+  width: min(640px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #fff, #fdfaf5);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.product-details-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #ececec;
+}
+
+.product-details-modal-body {
+  padding: 20px;
+}
+
+.product-details-brand {
+  color: var(--passtionate-red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.product-details-name {
+  font-size: 22px;
+  color: var(--brand-black);
+  margin-bottom: 12px;
+}
+
+.product-details-description {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #333;
+}
+
+[dir="rtl"] .product-details-modal-header,
+[dir="rtl"] .product-details-modal-body {
+  text-align: right;
+}
+
+[dir="rtl"] .product-details-modal-header {
+  flex-direction: row-reverse;
+}
+
 .web-search-modal.is-open {
   display: flex;
 }
@@ -515,7 +686,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #fff;
+  background: linear-gradient(180deg, #fff, #fdfaf5);
   border-radius: 14px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
 }
@@ -566,7 +737,7 @@ body {
   padding: 10px 12px;
   border-left: 3px solid var(--eternal-gold);
   border-radius: 6px;
-  background: #f8f8f8;
+  background: #fff;
 }
 
 .citation-group h4 {
@@ -644,6 +815,10 @@ body {
 
 @media (max-width: 640px) {
   .web-search-modal-content {
+    max-height: 90vh;
+  }
+
+  .product-details-modal-content {
     max-height: 90vh;
   }
 

@@ -9,6 +9,15 @@ const webSearchModal = document.getElementById("webSearchModal");
 const closeWebSearchModalButton = document.getElementById(
   "closeWebSearchModal",
 );
+const productDetailsModal = document.getElementById("productDetailsModal");
+const closeProductDetailsModalButton = document.getElementById(
+  "closeProductDetailsModal",
+);
+const productDetailsBrand = document.getElementById("productDetailsBrand");
+const productDetailsName = document.getElementById("productDetailsName");
+const productDetailsDescription = document.getElementById(
+  "productDetailsDescription",
+);
 const webSearchForm = document.getElementById("webSearchForm");
 const webSearchInput = document.getElementById("webSearchInput");
 const webSearchMessages = document.getElementById("webSearchMessages");
@@ -246,6 +255,26 @@ function closeWebSearchModal() {
   document.body.style.overflow = "";
 }
 
+/* Open product details modal with full description */
+function openProductDetailsModal(product) {
+  if (!product) return;
+
+  productDetailsBrand.textContent = product.brand;
+  productDetailsName.textContent = product.name;
+  productDetailsDescription.textContent = product.description;
+
+  productDetailsModal.classList.add("is-open");
+  productDetailsModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+/* Close product details modal */
+function closeProductDetailsModal() {
+  productDetailsModal.classList.remove("is-open");
+  productDetailsModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
 /* Ask OpenAI web search for current L'Oréal information */
 async function askWebSearchQuestion(question) {
   if (!isAllowedBeautyQuestion(question)) {
@@ -400,6 +429,9 @@ function displayProducts(products) {
       <div class="product-info">
         <h3>${product.name}</h3>
         <p>${product.brand}</p>
+        <button type="button" class="learn-more-btn" data-product-id="${product.id}">
+          Learn More
+        </button>
       </div>
     </div>
   `,
@@ -550,6 +582,14 @@ categoryFilter.addEventListener("change", async (e) => {
 
 /* Click a card to select or unselect a product */
 productsContainer.addEventListener("click", (e) => {
+  const learnMoreButton = e.target.closest(".learn-more-btn");
+  if (learnMoreButton) {
+    const productId = Number(learnMoreButton.dataset.productId);
+    const product = allProducts.find((item) => item.id === productId);
+    openProductDetailsModal(product);
+    return;
+  }
+
   const card = e.target.closest(".product-card");
   if (!card) return;
 
@@ -559,6 +599,8 @@ productsContainer.addEventListener("click", (e) => {
 
 /* Keyboard support for selecting cards */
 productsContainer.addEventListener("keydown", (e) => {
+  if (e.target.closest(".learn-more-btn")) return;
+
   if (e.key !== "Enter" && e.key !== " ") return;
 
   const card = e.target.closest(".product-card");
@@ -627,6 +669,21 @@ if (webSearchModal) {
   });
 }
 
+if (closeProductDetailsModalButton) {
+  closeProductDetailsModalButton.addEventListener(
+    "click",
+    closeProductDetailsModal,
+  );
+}
+
+if (productDetailsModal) {
+  productDetailsModal.addEventListener("click", (e) => {
+    if (e.target === productDetailsModal) {
+      closeProductDetailsModal();
+    }
+  });
+}
+
 if (webSearchForm) {
   webSearchForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -654,6 +711,10 @@ if (webSearchForm) {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && webSearchModal.classList.contains("is-open")) {
     closeWebSearchModal();
+  }
+
+  if (e.key === "Escape" && productDetailsModal.classList.contains("is-open")) {
+    closeProductDetailsModal();
   }
 });
 

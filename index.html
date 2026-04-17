@@ -130,6 +130,41 @@
         </div>
       </div>
 
+      <!------- Product Details Modal ------->
+      <div
+        id="productDetailsModal"
+        class="product-details-modal"
+        aria-hidden="true"
+      >
+        <div
+          class="product-details-modal-content"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="productDetailsTitle"
+        >
+          <div class="product-details-modal-header">
+            <h2 id="productDetailsTitle">Product Details</h2>
+            <button
+              type="button"
+              id="closeProductDetailsModal"
+              class="close-modal-btn"
+              aria-label="Close product details"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="product-details-modal-body">
+            <p id="productDetailsBrand" class="product-details-brand"></p>
+            <h3 id="productDetailsName" class="product-details-name"></h3>
+            <p
+              id="productDetailsDescription"
+              class="product-details-description"
+            ></p>
+          </div>
+        </div>
+      </div>
+
       <!------- Footer Links ------->
       <footer class="site-footer">
         <p>&copy; 2025 L'Oréal. All rights reserved.</p>
